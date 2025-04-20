@@ -77,3 +77,23 @@ Successfully installed faiss-cpu-1.10.0 numpy-2.2.4 packaging-24.2
 
 [notice] A new release of pip is available: 24.3.1 -> 25.0.1
 [notice] To update, run: python.exe -m pip install --upgrade pip
+
+
+6) initialize repo
+$ ls -al ~/.ssh
+ls: cannot access '/c/Users/MSI/.ssh': No such file or directory
+
+MSI@DESKTOP-8P7LIVV MINGW64 ~
+$ ssh-keygen -t ed25519 -C "phanikartcs@gmail.com"
+
+In powershell admin prompt:
+PS C:\Windows\system32> Get-Service -Name ssh-agent | Set-Service -StartupType Manual
+PS C:\Windows\system32> Start-Service ssh-agent
+PS C:\Windows\system32> ssh-add c:/Users/MSI/.ssh/id_ed25519
+Identity added: c:/Users/MSI/.ssh/id_ed25519 (xxxx@gmail.com)
+
+Then in gitbash: ssh-keyscan github.com >>  ../../Users/MSI/.ssh/known_hosts
+
+Copied id_ed25519.pub contents and pasted in github.
+
+

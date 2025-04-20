@@ -61,25 +61,17 @@ def main():
   index.add(xb_np)
 
   index.nprobe = 10  # How many clusters to search in
-  #sanity_q = xb_np[:1]
-  #D, I = index.search(sanity_q, k=5) # sanity check
-  #print(I)
-  #print(D)
-
   input_query = input('Ask me a question: ')
   query_embedding = ollama.embed(model=EMBEDDING_MODEL, input=input_query)['embeddings'][0]
   Q_TUPLE = []
   Q_TUPLE.append(query_embedding)
   query_np = np.array(Q_TUPLE).astype('float32')
   D, I = index.search(query_np, k=5)
-  print(I)
-  print(D)
-
-  #retrieved_knowledge = retrieve(input_query)
+ 
+ 
 
   print('Retrieved knowledge:')
   chunks_collection = []
-  #print(VECTOR_DB[I][0])
   for index in I[0]:
      chunk = VECTOR_DB[int(index)][0]
      print(chunk)
@@ -106,7 +98,7 @@ def main():
   print('Chatbot response:')
   for chunk in stream:
     print(chunk['message']['content'], end='', flush=True)
-  print("Hello, World!")
+ 
 
 
 if __name__ == "__main__":
