@@ -5,6 +5,7 @@ from customer_files.config import EMBEDDING_MODEL, LANGUAGE_MODEL, INPUT_FILE_NA
 from pathlib import Path
 import sqlite3
 import pickle
+from tqdm import tqdm
 
 VECTOR_DB = []
 TUPLES = []
@@ -30,9 +31,9 @@ def create_IVFPQ_db(data):
         )
     ''')
 
-    for i, chunk in enumerate(data):
+    for i, chunk in tqdm(enumerate(data), desc="Number of chunks added to database", unit=" chunks", total = len(data)):
         prepare_lists_for_database(chunk, cursor, i)
-        print(f'Added chunk {i+1}/{len(data)} to the database')
+        #print(f'Added chunk {i+1}/{len(data)} to the database')
     
     conn.commit()
     conn.close()

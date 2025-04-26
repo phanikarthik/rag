@@ -96,4 +96,10 @@ Then in gitbash: ssh-keyscan github.com >>  ../../Users/MSI/.ssh/known_hosts
 
 Copied id_ed25519.pub contents and pasted in github.
 
+$ pip install tqdm
+Requirement already satisfied: tqdm in c:\users\msi\appdata\local\programs\python\python313\lib\site-packages (4.67.1)
+Requirement already satisfied: colorama in c:\users\msi\appdata\local\programs\python\python313\lib\site-packages (from tqdm) (0.4.6)
+
+[notice] A new release of pip is available: 24.3.1 -> 25.1
+[notice] To update, run: python.exe -m pip install --upgrade pip
 
