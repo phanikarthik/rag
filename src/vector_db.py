@@ -1,22 +1,46 @@
 import ollama
 import faiss
 import numpy as np
-from config import EMBEDDING_MODEL, LANGUAGE_MODEL, INPUT_FILE_NAME
+from customer_files.config import EMBEDDING_MODEL, LANGUAGE_MODEL, INPUT_FILE_NAME
+from pathlib import Path
+import sqlite3
+import pickle
 
 VECTOR_DB = []
 TUPLES = []
 
-def prepare_lists_for_database(chunk):
+def prepare_lists_for_database(chunk, sqlite_cur, idx):
   embedding = ollama.embed(model=EMBEDDING_MODEL, input=chunk)['embeddings'][0]
   no_of_features_per_tuple = len(embedding)
+  sqlite_cur.execute("INSERT INTO chunks (id, text) VALUES (?, ?)", (idx, chunk))
   VECTOR_DB.append((chunk, embedding))
   TUPLES.append(embedding)
 
 def create_IVFPQ_db(data):
+
+    # Connect to SQLite DB (creates the file if it doesn't exist)
+    conn = sqlite3.connect("faiss_chunks.db")
+    cursor = conn.cursor()
+
+    # Create table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS chunks (
+            id INTEGER PRIMARY KEY,
+            text TEXT NOT NULL
+        )
+    ''')
+
     for i, chunk in enumerate(data):
-        prepare_lists_for_database(chunk)
+        prepare_lists_for_database(chunk, cursor, i)
         print(f'Added chunk {i+1}/{len(data)} to the database')
     
+    conn.commit()
+    conn.close()
+
+    # Save to a file
+    with open("my_list.pkl", "wb") as f:
+      pickle.dump(VECTOR_DB, f)
+
     no_of_vectors_nb = len(data)
     no_of_features_per_vector_d = len(VECTOR_DB[0][1])
     no_of_subvectors_per_vector_m = 32
@@ -32,10 +56,13 @@ def create_IVFPQ_db(data):
     index.train(xb_np)
     index.add(xb_np)
 
+    folder = Path("customer_files")
     op_file = INPUT_FILE_NAME
     if not op_file.endswith(".ivfpq"):
         op_file += ".ivfpq"
 
-    faiss.write_index(index, op_file)
+    op_file = folder / op_file
+
+    faiss.write_index(index, str(op_file))
     print(f"Saved the databse as {op_file} using FAISS version: {faiss.__version__}")
     return index
