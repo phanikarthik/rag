@@ -103,3 +103,23 @@ Requirement already satisfied: colorama in c:\users\msi\appdata\local\programs\p
 [notice] A new release of pip is available: 24.3.1 -> 25.1
 [notice] To update, run: python.exe -m pip install --upgrade pip
 
+$ pip install nltk (not using)
+Collecting nltk
+  Using cached nltk-3.9.1-py3-none-any.whl.metadata (2.9 kB)
+Collecting click (from nltk)
+  Using cached click-8.1.8-py3-none-any.whl.metadata (2.3 kB)
+Collecting joblib (from nltk)
+  Using cached joblib-1.4.2-py3-none-any.whl.metadata (5.4 kB)
+Collecting regex>=2021.8.3 (from nltk)
+  Using cached regex-2024.11.6-cp313-cp313-win_amd64.whl.metadata (41 kB)
+Requirement already satisfied: tqdm in c:\users\msi\appdata\local\programs\python\python313\lib\site-packages (from nltk) (4.67.1)
+Requirement already satisfied: colorama in c:\users\msi\appdata\local\programs\python\python313\lib\site-packages (from click->nltk) (0.4.6)
+Using cached nltk-3.9.1-py3-none-any.whl (1.5 MB)
+Downloading regex-2024.11.6-cp313-cp313-win_amd64.whl (273 kB)
+Using cached click-8.1.8-py3-none-any.whl (98 kB)
+Using cached joblib-1.4.2-py3-none-any.whl (301 kB)
+Installing collected packages: regex, joblib, click, nltk
+Successfully installed click-8.1.8 joblib-1.4.2 nltk-3.9.1 regex-2024.11.6
+
+[notice] A new release of pip is available: 24.3.1 -> 25.1
+[notice] To update, run: python.exe -m pip install --upgrade pip
