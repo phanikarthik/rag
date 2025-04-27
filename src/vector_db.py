@@ -9,15 +9,25 @@ from tqdm import tqdm
 
 VECTOR_DB = []
 TUPLES = []
+global_sql3_db_sanity_check = False
 
 def prepare_lists_for_database(chunk, sqlite_cur, idx):
   embedding = ollama.embed(model=EMBEDDING_MODEL, input=chunk)['embeddings'][0]
   no_of_features_per_tuple = len(embedding)
   sqlite_cur.execute("INSERT INTO chunks (id, text) VALUES (?, ?)", (idx, chunk))
-  VECTOR_DB.append((chunk, embedding))
+
+  global global_sql3_db_sanity_check, VECTOR_DB, TUPLES
+  if(global_sql3_db_sanity_check):
+      VECTOR_DB.append((chunk, embedding))
+
   TUPLES.append(embedding)
 
-def create_IVFPQ_db(data):
+
+def create_IVFPQ_db(data, sqlite_db_sanity_check = False):
+
+    global global_sql3_db_sanity_check, VECTOR_DB, TUPLES
+    if(sqlite_db_sanity_check):
+       global_sql3_db_sanity_check = True
 
     # Connect to SQLite DB (creates the file if it doesn't exist)
     conn = sqlite3.connect("faiss_chunks.db")
@@ -38,12 +48,13 @@ def create_IVFPQ_db(data):
     conn.commit()
     conn.close()
 
-    # Save to a file
-    with open("my_list.pkl", "wb") as f:
-      pickle.dump(VECTOR_DB, f)
+    if(global_sql3_db_sanity_check):
+        # Save to a file
+        with open("my_list.pkl", "wb") as f:
+          pickle.dump(VECTOR_DB, f)
 
     no_of_vectors_nb = len(data)
-    no_of_features_per_vector_d = len(VECTOR_DB[0][1])
+    no_of_features_per_vector_d = len(TUPLES[0])
     no_of_subvectors_per_vector_m = 32
     subvectors_encode_length_n_bits = 4 #8
     no_of_clusters_n_list = round(no_of_vectors_nb ** 0.5) #sqrt(no_of_vectors_nb)

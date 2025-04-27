@@ -34,7 +34,7 @@ def main():
     dataset = file.readlines()
     print(f'Loaded {len(dataset)} entries')
   
-  create_IVFPQ_db(dataset)
+  create_IVFPQ_db(dataset, True)
 
 
 
