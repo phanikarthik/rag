@@ -17,7 +17,7 @@ def retrieve_chunks(indices):
 
     # Build a SQL query to get texts by IDs
     placeholders = ",".join("?" * len(indices))  # Creates "?, ?, ?" based on number of indices
-    sql = f"SELECT id, text FROM chunks WHERE id IN ({placeholders})"
+    sql = f"SELECT id, page_no, chapter_name, text FROM chunks WHERE id IN ({placeholders})"
 
     # Execute the query
     cursor.execute(sql, list(indices))
@@ -61,9 +61,14 @@ def answer_query(sqlite_db_sanity_check = False):
 
    chunks_collection = []
    # Display results
-   for id, text in rows:
-      print(f"[{id}] {text}\n")
-      chunks_collection.append(text)
+   for id, page_no, chapter_name, text in rows:
+      #print(f"[{id}] {text}\n")
+      print(f"[{id}] [Page {page_no}] ({chapter_name}): {text}\n")
+      chunks_collection.append({
+        'page_no': page_no,
+        'chapter_name': chapter_name,
+        'text': text
+      })
 
    if(sqlite_db_sanity_check):
       if(sorted(VECTOR_DB_LIST) == sorted(chunks_collection)):
@@ -73,12 +78,18 @@ def answer_query(sqlite_db_sanity_check = False):
          print('SQLITE database has retrieved different chunks as in the local list')
          sys.exit(1)
 
-   context = "\n".join(chunks_collection)
+   #context = "\n".join(chunks_collection)
+   context = "\n".join(
+    f"[Reference: Page {chunk['page_no']}] ( Chapter name: {chunk['chapter_name']})\n{chunk['text']}"
+    for chunk in chunks_collection
+   )
    #for chunk, similarity in retrieved_knowledge:
    #  print(f' - (similarity: {similarity:.2f}) {chunk}')
 
-   instruction_prompt = f"""You are a helpful chatbot.
-   Use only the following pieces of context to answer the question. Don't make up any new information:
+   instruction_prompt = f"""You are a helpfull AI scholar.
+   1) Use ONLY THE info given in "Context" to answer the "Question".
+   2) ALWAYS CITE ONCE YOUR ANSWER USING ONLY THE page_no and chaptor_name" given in REFERENCE.
+   3) DONT HALLUCINATE. DONT MAKEUP NEW INFORMATION.
    Context: {context}
    Question: {input_query}
    Answer: """
@@ -96,7 +107,7 @@ def answer_query(sqlite_db_sanity_check = False):
      print(chunk['message']['content'], end='', flush=True)
 
 def main():
-   answer_query(True)
+   answer_query(False)
 
 if __name__ == "__main__":
     main()

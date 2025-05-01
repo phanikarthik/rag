@@ -32,14 +32,18 @@ def main():
     ip_file += ".txt"
 
   with open(ip_file, 'r') as file:
-    dataset = file.read()
-    #dataset = file.readlines()
+    dataset = file.readlines()
     print(f'Loaded {len(dataset)} entries')
   
-  #chunk_text_with_sentence_overlap(dataset)
-  dataset_chunks = chunk_text_with_overlap(dataset)
-  create_IVFPQ_db(dataset_chunks, True)
+  create_IVFPQ_db(dataset, True)
 
+
+  #with open(ip_file, 'r') as file:
+  #  dataset = file.read()
+  #  print(f'Loaded {len(dataset)} entries')
+  
+  #dataset_chunks = chunk_text_with_overlap(dataset)
+  #create_IVFPQ_db(dataset_chunks, True)
 
 
 if __name__ == "__main__":

@@ -80,7 +80,7 @@ def split_into_sentences(text):
         
     return chunks
 
-def chunk_text_with_overlap(text_with_newline, chunk_size=1000, overlap_size=200):
+def chunk_text_with_overlap(text_with_newline, chunk_size=500, overlap_size=100):
     """
     Chunks a large text into smaller chunks with sentence boundaries and a specified overlap.
 

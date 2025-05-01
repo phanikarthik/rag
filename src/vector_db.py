@@ -11,10 +11,10 @@ VECTOR_DB = []
 TUPLES = []
 global_sql3_db_sanity_check = False
 
-def prepare_lists_for_database(chunk, sqlite_cur, idx):
+def prepare_lists_for_database(sqlite_cur, idx, page_no, chap_name, chunk):
   embedding = ollama.embed(model=EMBEDDING_MODEL, input=chunk)['embeddings'][0]
   no_of_features_per_tuple = len(embedding)
-  sqlite_cur.execute("INSERT INTO chunks (id, text) VALUES (?, ?)", (idx, chunk))
+  sqlite_cur.execute("INSERT INTO chunks (id, page_no, chapter_name, text) VALUES (?, ?, ?, ?)", (idx, page_no, chap_name, chunk))
 
   global global_sql3_db_sanity_check, VECTOR_DB, TUPLES
   if(global_sql3_db_sanity_check):
@@ -37,12 +37,14 @@ def create_IVFPQ_db(data, sqlite_db_sanity_check = False):
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS chunks (
             id INTEGER PRIMARY KEY,
+            page_no INTEGER,
+            chapter_name TEXT NOT NULL,
             text TEXT NOT NULL
         )
     ''')
 
     for i, chunk in tqdm(enumerate(data), desc="Number of chunks added to database", unit=" chunks", total = len(data)):
-        prepare_lists_for_database(chunk, cursor, i)
+        prepare_lists_for_database(cursor, i, 2, 'aadhya', chunk)
         #print(f'Added chunk {i+1}/{len(data)} to the database')
     
     conn.commit()
