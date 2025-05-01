@@ -31,11 +31,11 @@ def main():
   if not ip_file.endswith(".txt"):
     ip_file += ".txt"
 
-  with open(ip_file, 'r') as file:
-    dataset = file.readlines()
-    print(f'Loaded {len(dataset)} entries')
+  #with open(ip_file, 'r') as file:
+  #  dataset = file.readlines()
+  #  print(f'Loaded {len(dataset)} entries')
   
-  create_IVFPQ_db(dataset, True)
+  #create_IVFPQ_db(dataset, True)
 
 
   #with open(ip_file, 'r') as file:
@@ -45,6 +45,12 @@ def main():
   #dataset_chunks = chunk_text_with_overlap(dataset)
   #create_IVFPQ_db(dataset_chunks, True)
 
+  with open(ip_file, 'r') as file:
+    dataset = file.read()
+    print(f'Loaded {len(dataset)} entries')
+
+  sentences = chunk_text_with_overlap(dataset, False)
+  create_IVFPQ_db(sentences, True)
 
 if __name__ == "__main__":
     main()

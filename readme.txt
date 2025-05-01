@@ -123,3 +123,47 @@ Successfully installed click-8.1.8 joblib-1.4.2 nltk-3.9.1 regex-2024.11.6
 
 [notice] A new release of pip is available: 24.3.1 -> 25.1
 [notice] To update, run: python.exe -m pip install --upgrade pip
+
+
+$ pip install textblob
+Collecting textblob
+  Downloading textblob-0.19.0-py3-none-any.whl.metadata (4.4 kB)
+Requirement already satisfied: nltk>=3.9 in c:\users\msi\appdata\local\programs\python\python313\lib\site-packages (from textblob) (3.9.1)
+Requirement already satisfied: click in c:\users\msi\appdata\local\programs\python\python313\lib\site-packages (from nltk>=3.9->textblob) (8.1.8)
+Requirement already satisfied: joblib in c:\users\msi\appdata\local\programs\python\python313\lib\site-packages (from nltk>=3.9->textblob) (1.4.2)
+Requirement already satisfied: regex>=2021.8.3 in c:\users\msi\appdata\local\programs\python\python313\lib\site-packages (from nltk>=3.9->textblob) (2024.11.6)
+Requirement already satisfied: tqdm in c:\users\msi\appdata\local\programs\python\python313\lib\site-packages (from nltk>=3.9->textblob) (4.67.1)
+Requirement already satisfied: colorama in c:\users\msi\appdata\local\programs\python\python313\lib\site-packages (from click->nltk>=3.9->textblob) (0.4.6)
+Downloading textblob-0.19.0-py3-none-any.whl (624 kB)
+   ---------------------------------------- 624.3/624.3 kB 3.0 MB/s eta 0:00:00
+Installing collected packages: textblob
+Successfully installed textblob-0.19.0
+
+[notice] A new release of pip is available: 24.3.1 -> 25.1
+[notice] To update, run: python.exe -m pip install --upgrade pip
+
+MSI@DESKTOP-8P7LIVV MINGW64 /d/2105_family/panu/code/workspace/rag_repo/rag (main)
+$ python -m textblob.download_corpora
+[nltk_data] Downloading package brown to
+[nltk_data]     C:\Users\MSI\AppData\Roaming\nltk_data...
+[nltk_data]   Unzipping corpora\brown.zip.
+[nltk_data] Downloading package punkt_tab to
+[nltk_data]     C:\Users\MSI\AppData\Roaming\nltk_data...
+[nltk_data]   Unzipping tokenizers\punkt_tab.zip.
+[nltk_data] Downloading package wordnet to
+[nltk_data]     C:\Users\MSI\AppData\Roaming\nltk_data...
+[nltk_data] Downloading package averaged_perceptron_tagger_eng to
+[nltk_data]     C:\Users\MSI\AppData\Roaming\nltk_data...
+[nltk_data] Error downloading 'averaged_perceptron_tagger_eng' from
+[nltk_data]     <https://raw.githubusercontent.com/nltk/nltk_data/gh-p
+[nltk_data]     ages/packages/taggers/averaged_perceptron_tagger_eng.z
+[nltk_data]     ip>:   HTTP Error 429: Too Many Requests
+[nltk_data] Downloading package conll2000 to
+[nltk_data]     C:\Users\MSI\AppData\Roaming\nltk_data...
+[nltk_data]   Unzipping corpora\conll2000.zip.
+[nltk_data] Downloading package movie_reviews to
+[nltk_data]     C:\Users\MSI\AppData\Roaming\nltk_data...
+[nltk_data]   Unzipping corpora\movie_reviews.zip.
+Finished.
+
+MSI@DESKTOP-8P7LIVV MINGW64 /d/2105_family/panu/code/workspace/rag_repo/rag (main

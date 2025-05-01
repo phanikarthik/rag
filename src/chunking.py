@@ -3,6 +3,8 @@ from nltk.tokenize import sent_tokenize
 from nltk.data import find
 import re
 
+from textblob import TextBlob
+
 def download_dependencies():
     try:
        # Check if 'punkt' tokenizer is already downloaded
@@ -10,39 +12,6 @@ def download_dependencies():
     except LookupError:
        # If not found, download it quietly
        nltk.download('punkt', quiet=True)
-
-def chunk_text_with_sentence_overlap(text, chunk_size=1000, overlap_size=200):
-    download_dependencies()
-    """
-    Splits a large text into chunks by sentence boundaries, maintaining overlap between chunks.
-
-    Args:
-        text (str): The large text to split and chunk.
-        chunk_size (int): Maximum size (in characters) for each chunk.
-        overlap_size (int): Overlapping size (in characters) between chunks.
-
-    Returns:
-        List[str]: A list of chunked texts.
-    """
-    sentences = sent_tokenize(text)  # Split into sentences
-    chunks = []
-    current_chunk = ""
-    
-    for sentence in sentences:
-        # If adding this sentence exceeds the chunk size
-        if len(current_chunk) + len(sentence) + 1 > chunk_size:
-            chunks.append(current_chunk.strip())
-            # Start the next chunk with the last `overlap_size` characters
-            current_chunk = current_chunk[-overlap_size:] + " " + sentence
-        else:
-            current_chunk += " " + sentence
-    
-    # Add any remaining text as a final chunk
-    if current_chunk.strip():
-        chunks.append(current_chunk.strip())
-    
-    return chunks
-
 
 def split_into_sentences(text):
     """
@@ -52,35 +21,42 @@ def split_into_sentences(text):
     sentences = sentence_endings.split(text)
     return sentences
 
-#def chunk_text_with_overlap(text, chunk_size=1000, overlap_size=200):
+def chunk_text_with_overlap(text_with_newline, doOverlapping = True, chunk_size=1000, overlap_size=200):
     """
-    Chunks a large text into smaller chunks with a specified overlap.
-
+    Chunks text into overlapping blocks using sentence boundaries from TextBlob.
+    
     Args:
-        text (str): The large input text to chunk.
-        chunk_size (int): Size of each chunk (in characters).
-        overlap_size (int): Number of overlapping characters between chunks.
+        text (str): The input text.
+        chunk_size (int): Max characters in a chunk.
+        overlap_size (int): Number of characters to overlap.
 
     Returns:
-        List of strings: A list where each string is a chunk of the input text.
+        List[str]: A list of text chunks.
     """
-    chunks = []  # This will store all the text chunks
-    start = 0  # The starting index of the current chunk
-    
-    # Iterate through the text to create chunks
-    while start < len(text):
-        # Define the end of the chunk (it should not exceed the text length)
-        end = start + chunk_size
-        
-        # Add the chunk to the list
-        chunks.append(text[start:end])
-        
-        # Move the starting point forward by chunk_size - overlap_size
-        start = end - overlap_size
-        
-    return chunks
+    text = text_with_newline.replace('\n', ' ')
+    blob = TextBlob(text)
+    sentences = [str(s) for s in blob.sentences]
 
-def chunk_text_with_overlap(text_with_newline, chunk_size=500, overlap_size=100):
+    chunks = []
+    current_chunk = ""
+
+    if(doOverlapping):
+        for sentence in sentences:
+            if len(current_chunk) + len(sentence) + 1 > chunk_size:
+                chunks.append(current_chunk.strip())
+                current_chunk = current_chunk[-overlap_size:] + " " + sentence
+            else:
+                current_chunk += " " + sentence
+
+        if current_chunk.strip():
+            chunks.append(current_chunk.strip())
+        return chunks
+    else:
+        return sentences
+
+
+
+#def chunk_text_with_overlap(text_with_newline, chunk_size=500, overlap_size=100):
     """
     Chunks a large text into smaller chunks with sentence boundaries and a specified overlap.
 

@@ -86,7 +86,7 @@ def answer_query(sqlite_db_sanity_check = False):
    #for chunk, similarity in retrieved_knowledge:
    #  print(f' - (similarity: {similarity:.2f}) {chunk}')
 
-   instruction_prompt = f"""You are a helpfull AI scholar.
+   instruction_prompt = f"""You are a research assistant.
    1) Use ONLY THE info given in "Context" to answer the "Question".
    2) ALWAYS CITE ONCE YOUR ANSWER USING ONLY THE page_no and chaptor_name" given in REFERENCE.
    3) DONT HALLUCINATE. DONT MAKEUP NEW INFORMATION.
