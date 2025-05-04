@@ -43,8 +43,16 @@ def create_IVFPQ_db(data, sqlite_db_sanity_check = False):
         )
     ''')
 
-    for i, chunk in tqdm(enumerate(data), desc="Number of chunks added to database", unit=" chunks", total = len(data)):
-        prepare_lists_for_database(cursor, i, 2, 'aadhya', chunk)
+    for i, entry in tqdm(enumerate(data), desc="Number of chunks added to database", unit=" chunks", total = len(data)):
+        if isinstance(entry, dict):
+            page_no = entry.get("page_no", -1)
+            chapter_name = entry.get("chapter", "Unknown")
+            chunk = entry.get("text", "")
+        elif isinstance(entry, tuple) and len(entry) == 3:
+            page_no, chapter_name, chunk = entry
+        else:
+            raise ValueError("Unsupported data format for entry at index {}".format(i))
+        prepare_lists_for_database(cursor, i, page_no, chapter_name, chunk)
         #print(f'Added chunk {i+1}/{len(data)} to the database')
     
     conn.commit()

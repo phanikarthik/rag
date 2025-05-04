@@ -4,6 +4,8 @@ from nltk.data import find
 import re
 
 from textblob import TextBlob
+from pdfminer.high_level import extract_text
+from pdfminer.pdfpage import PDFPage
 
 def download_dependencies():
     try:

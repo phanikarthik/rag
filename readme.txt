@@ -167,3 +167,39 @@ $ python -m textblob.download_corpora
 Finished.
 
 MSI@DESKTOP-8P7LIVV MINGW64 /d/2105_family/panu/code/workspace/rag_repo/rag (main
+
+$ pip install pymupdf -------------not using
+Collecting pymupdf
+  Downloading pymupdf-1.25.5-cp39-abi3-win_amd64.whl.metadata (3.4 kB)
+Downloading pymupdf-1.25.5-cp39-abi3-win_amd64.whl (16.6 MB)
+   ---------------------------------------- 16.6/16.6 MB 8.4 MB/s eta 0:00:00
+Installing collected packages: pymupdf
+Successfully installed pymupdf-1.25.5
+
+[notice] A new release of pip is available: 24.3.1 -> 25.1
+[notice] To update, run: python.exe -m pip install --upgrade pip
+
+
+$ pip install pdfminer.six
+Collecting pdfminer.six
+  Downloading pdfminer_six-20250416-py3-none-any.whl.metadata (4.1 kB)
+Collecting charset-normalizer>=2.0.0 (from pdfminer.six)
+  Using cached charset_normalizer-3.4.1-cp313-cp313-win_amd64.whl.metadata (36 kB)
+Collecting cryptography>=36.0.0 (from pdfminer.six)
+  Downloading cryptography-44.0.2-cp39-abi3-win_amd64.whl.metadata (5.7 kB)
+Collecting cffi>=1.12 (from cryptography>=36.0.0->pdfminer.six)
+  Downloading cffi-1.17.1-cp313-cp313-win_amd64.whl.metadata (1.6 kB)
+Collecting pycparser (from cffi>=1.12->cryptography>=36.0.0->pdfminer.six)
+  Downloading pycparser-2.22-py3-none-any.whl.metadata (943 bytes)
+Downloading pdfminer_six-20250416-py3-none-any.whl (5.6 MB)
+   ---------------------------------------- 5.6/5.6 MB 11.1 MB/s eta 0:00:00
+Using cached charset_normalizer-3.4.1-cp313-cp313-win_amd64.whl (102 kB)
+Downloading cryptography-44.0.2-cp39-abi3-win_amd64.whl (3.2 MB)
+   ---------------------------------------- 3.2/3.2 MB 13.1 MB/s eta 0:00:00
+Downloading cffi-1.17.1-cp313-cp313-win_amd64.whl (182 kB)
+Downloading pycparser-2.22-py3-none-any.whl (117 kB)
+Installing collected packages: pycparser, charset-normalizer, cffi, cryptography, pdfminer.six
+Successfully installed cffi-1.17.1 charset-normalizer-3.4.1 cryptography-44.0.2 pdfminer.six-20250416 pycparser-2.22
+
+[notice] A new release of pip is available: 24.3.1 -> 25.1
+[notice] To update, run: python.exe -m pip install --upgrade pip

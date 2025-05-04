@@ -38,7 +38,7 @@ def answer_query(sqlite_db_sanity_check = False):
           VECTOR_DB = pickle.load(f)
 
    VECTOR_DB_LIST = []
-   index = faiss.read_index("customer_files/sample_data.ivfpq")
+   index = faiss.read_index("customer_files/mbtn-eng-translation-1a.ivfpq")
    index.nprobe = 10  # How many clusters to search in
    input_query = input('Ask me a question: ')
    query_embedding = ollama.embed(model=EMBEDDING_MODEL, input=input_query)['embeddings'][0]
